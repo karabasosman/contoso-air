@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contoso-air-web
+  labels:
+    app: contoso-air-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: contoso-air-web
+  template:
+    metadata:
+      labels:
+        app: contoso-air-web
+    spec:
+      containers:
+        - name: contoso-air-web
+          image: osktestcrqpjmtpx4xyv3e.azurecr.io/contosoair:v1
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            # Add CosmosDB and other env vars here or mount from secret/configmap
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
