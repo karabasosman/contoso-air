@@ -1,0 +1,50 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: contoso-air-web
+  annotations:
+    config.kubernetes.io/local-config: "true"
+
+# Common labels applied to all resources
+labels:
+  - pairs:
+      app.kubernetes.io/name: contoso-air
+      app.kubernetes.io/part-of: contoso-air-platform
+      app.kubernetes.io/managed-by: kustomize
+
+# Resources to include in this deployment
+resources:
+  - serviceaccount.yaml
+  - configmap.yaml
+  - secret.yaml
+  - deployment.yaml
+  - service.yaml
+  - hpa.yaml
+  - pdb.yaml
+  - networkpolicy.yaml
+
+# Images to replace - useful for CI/CD pipelines
+images:
+  - name: osktestcrqpjmtpx4xyv3e.azurecr.io/contosoair
+    newTag: v1
+    # Use this in CI/CD to pin to specific digest:
+    # newName: osktestcrqpjmtpx4xyv3e.azurecr.io/contosoair
+    # digest: sha256:ACTUAL_DIGEST_HERE
+
+# Namespace to deploy to (optional)
+# namespace: contoso-air
+
+# ConfigMap and Secret generators (alternative to separate files)
+# configMapGenerator:
+#   - name: contoso-air-web-config
+#     literals:
+#       - NODE_ENV=production
+#       - PORT=3000
+
+# secretGenerator:
+#   - name: contoso-air-web-secrets
+#     literals:
+#       - AZURE_COSMOS_CLIENTID=placeholder
+#       - AZURE_COSMOS_LISTCONNECTIONSTRINGURL=placeholder
