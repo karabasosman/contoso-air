@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:1
 
+# Multi-stage build for optimized production image
+
 # Development stage
 FROM node:22-alpine AS development
 LABEL stage=development
@@ -14,11 +16,11 @@ FROM node:22-alpine AS build
 LABEL stage=build
 WORKDIR /usr/src/app
 
-# Copy package files and install only production dependencies
+# Copy package files and install only production dependencies (with optimizations)
 COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev --no-audit --no-fund --prefer-offline && npm cache clean --force
 
-# Copy source code
+# Copy source code (excluding dev files via .dockerignore)
 COPY . .
 
 # Production runtime stage
@@ -32,10 +34,10 @@ LABEL maintainer="Contoso Air Team" \
 
 WORKDIR /usr/src/app
 
-# Create non-root user early for security
+# Create non-root user for security
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-# Copy only production node_modules and application files from build stage
+# Copy production dependencies and application files from build stage
 COPY --from=build --chown=appuser:appgroup /usr/src/app/node_modules ./node_modules
 COPY --from=build --chown=appuser:appgroup /usr/src/app/package*.json ./
 COPY --from=build --chown=appuser:appgroup /usr/src/app/app.js ./
