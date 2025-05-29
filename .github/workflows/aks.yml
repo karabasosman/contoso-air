@@ -36,7 +36,7 @@ on:
 
 env:
   AZURE_CONTAINER_REGISTRY: "osktestcrqpjmtpx4xyv3e"
-  CONTAINER_NAME: "contoso-air"
+  CONTAINER_NAME: "contosoair"
   RESOURCE_GROUP: "rg-test"
   CLUSTER_NAME: "osk-test"
   DEPLOYMENT_MANIFEST_PATH: "infra"
