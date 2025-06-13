@@ -8,7 +8,7 @@ describe("[Unit] That Deals Service", () => {
   it("returns correct destinations", () => {
     const _destinations = [
       { id: 0, title: "Hawaii" },
-      { id: 1, title: "Paris" },
+      { id: 1, title: "Istanbul" },
       { id: 2, title: "Barcelona" },
     ];
     const dealsService = new DealsService(_destinations, null, null);
@@ -19,7 +19,7 @@ describe("[Unit] That Deals Service", () => {
       expect.objectContaining({ title: "Hawaii" })
     );
     expect(destinations).toContainEqual(
-      expect.objectContaining({ title: "Paris" })
+      expect.objectContaining({ title: "Istanbul" })
     );
     expect(destinations).not.toContainEqual(
       expect.objectContaining({ title: "Barcelona" })
