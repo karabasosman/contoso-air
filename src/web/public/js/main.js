@@ -12568,3 +12568,40 @@ return jQuery;
 /***/ })
 
 /******/ });
+
+// Dark Mode Toggle Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+    
+    // Check for saved dark mode preference or default to light mode
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode === 'enabled') {
+        body.classList.add('dark-mode');
+        updateToggleButton(true);
+    }
+    
+    // Toggle dark mode when button is clicked
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
+            const isDarkMode = body.classList.contains('dark-mode');
+            
+            // Save preference to localStorage
+            if (isDarkMode) {
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+            }
+            
+            updateToggleButton(isDarkMode);
+        });
+    }
+    
+    function updateToggleButton(isDarkMode) {
+        if (darkModeToggle) {
+            darkModeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+            darkModeToggle.setAttribute('aria-label', isDarkMode ? 'Switch to light mode' : 'Switch to dark mode');
+        }
+    }
+});
