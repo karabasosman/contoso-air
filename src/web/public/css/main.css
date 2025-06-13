@@ -8214,3 +8214,86 @@ p {
   body {
     font-size: 14px; } }
 
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+body.dark-mode .navbar-light {
+  background-color: #2d2d2d;
+}
+
+body.dark-mode .navbar-light .navbar-brand {
+  color: #e0e0e0;
+}
+
+body.dark-mode .navbar-light .navbar-nav .nav-link {
+  color: rgba(224, 224, 224, 0.7);
+}
+
+body.dark-mode .navbar-light .navbar-nav .nav-link:hover,
+body.dark-mode .navbar-light .navbar-nav .nav-link:focus {
+  color: #fff;
+}
+
+body.dark-mode .block-search {
+  background-color: #2d2d2d;
+}
+
+body.dark-mode .block-search-message-title {
+  color: #e0e0e0;
+}
+
+body.dark-mode .box {
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+}
+
+body.dark-mode .content::after {
+  background-image: linear-gradient(to bottom, rgba(26, 26, 26, 0), #1a1a1a 21rem, #1a1a1a 100%);
+}
+
+body.dark-mode .form-control {
+  background-color: #3d3d3d;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+body.dark-mode .form-control:focus {
+  background-color: #3d3d3d;
+  border-color: #4495d1;
+  color: #e0e0e0;
+}
+
+body.dark-mode .btn-primary {
+  background-color: #4495d1;
+  border-color: #4495d1;
+}
+
+body.dark-mode .btn-primary:hover {
+  background-color: #357abd;
+  border-color: #357abd;
+}
+
+body.dark-mode #dark-mode-toggle {
+  color: #ffd700;
+  border-color: #ffd700;
+}
+
+body.dark-mode #dark-mode-toggle:hover {
+  background-color: #ffd700;
+  color: #1a1a1a;
+}
+
+/* Light mode button styling */
+body:not(.dark-mode) #dark-mode-toggle {
+  color: #333;
+  border-color: #333;
+}
+
+body:not(.dark-mode) #dark-mode-toggle:hover {
+  background-color: #333;
+  color: #fff;
+}
+
