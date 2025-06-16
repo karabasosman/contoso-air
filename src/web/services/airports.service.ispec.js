@@ -26,4 +26,13 @@ describe("[Int] That Airports Service", () => {
       expect(airport.city).toBeTruthy();
     }
   );
+
+  it("İzmir (ADB) airport exists with correct city name", () => {
+    const airports = AirportsService();
+    const izmir = airports.getByCode("ADB");
+    expect(izmir.code).toBe("ADB");
+    expect(izmir.city).toBe("İzmir");
+    expect(izmir.country).toBe("Turkey");
+    expect(izmir.name).toBe("Gaziemir Airport");
+  });
 });
