@@ -42,4 +42,20 @@ describe("[Unit] That Airports Service", () => {
     const cityB = airports.getByCode("B");
     expect(cityB.city).toBe("B City");
   });
+
+  it("finds İzmir airport correctly", () => {
+    const airports = new AirportsService([
+      {
+        code: "ADB",
+        name: "Adnan Menderes Airport",
+        city: "İzmir",
+        country: "Turkey",
+      },
+    ]);
+
+    const izmir = airports.getByCode("ADB");
+    expect(izmir.city).toBe("İzmir");
+    expect(izmir.name).toBe("Adnan Menderes Airport");
+    expect(izmir.country).toBe("Turkey");
+  });
 });
