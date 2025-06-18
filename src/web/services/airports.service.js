@@ -14,6 +14,10 @@ class AirportsService {
   getByCode(code) {
     return avoidEmptyCity(this._airports.find((a) => a.code == code));
   }
+
+  addAirport(airport) {
+    this._airports.push(airport);
+  }
 }
 
 module.exports = AirportsService;
