@@ -7224,7 +7224,8 @@ a.text-dark:hover, a.text-dark:focus {
     margin-top: .8rem; }
 
 .route .footer,
-.route-barcelona .footer {
+.route-barcelona .footer,
+.route-sofia .footer {
   background-image: none;
   margin-top: -3rem;
   padding-bottom: 5rem; }
@@ -7312,6 +7313,10 @@ a.text-dark:hover, a.text-dark:focus {
 
 .block-search--city {
   background-image: url("/assets/b-barcelona.jpg");
+  background-position: center center; }
+
+.block-search--sofia {
+  background-image: url("/assets/b-sofia.jpg");
   background-position: center center; }
   .block-search--city .block-search-row .block-search-row-logo {
     color: rgba(255, 255, 255, 0.2); }

@@ -6,6 +6,12 @@
     "mobile-image": "hawaii_m.jpg"
   },
   {
+    "id": 1,
+    "title": "Sofia",
+    "desktop-image": "sofia.jpg",
+    "mobile-image": "sofia_m.jpg"
+  },
+  {
     "id": 2,
     "title": "Paris",
     "desktop-image": "paris.jpg",

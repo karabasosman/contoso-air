@@ -24,7 +24,7 @@ router.get("/", secured, function (req, res, next) {
 router.post("/", secured, function (req, res, next) {
   const dpa = req.body.dpa || moment();
   const dpb = req.body.dpb || moment().add(7, "days");
-  const fromCode = req.body.fromCode || "BCN";
+  const fromCode = req.body.fromCode || "SOF";
   const toCode = req.body.toCode || "SEA";
   const passengers = req.body.passengers || 1;
   res.redirect(
