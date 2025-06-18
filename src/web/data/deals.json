@@ -13,6 +13,19 @@
     "since": "2025-03-04T08:45:00Z"
   },
   {
+    "id": "8",
+    "fromName": "Seattle",
+    "fromCode": "SEA",
+    "toName": "Sofia",
+    "toCode": "SOF",
+    "price": "680",
+    "departTime": "2025-03-04T08:45:00Z",
+    "arrivalTime": "2025-03-05T16:30:00Z",
+    "hours": "12h 45m",
+    "stops": "1",
+    "since": "2025-03-04T08:45:00Z"
+  },
+  {
     "id": "1",
     "fromName": "Seattle",
     "fromCode": "SEA",
@@ -97,6 +110,19 @@
     "toName": "Singapore",
     "toCode": "SIN",
     "price": "528",
+    "departTime": null,
+    "arrivalTime": null,
+    "hours": null,
+    "stops": null,
+    "since": "2025-02-13T00:00:01Z"
+  },
+  {
+    "id": "9",
+    "fromName": "Seattle",
+    "fromCode": "SEA",
+    "toName": "Sofia",
+    "toCode": "SOF",
+    "price": "485",
     "departTime": null,
     "arrivalTime": null,
     "hours": null,
