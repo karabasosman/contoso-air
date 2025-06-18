@@ -55,4 +55,21 @@ describe("[Unit] That Deals Service", () => {
       })
     );
   });
+
+  it("can add destination", () => {
+    const _destinations = [
+      { id: 0, title: "Hawaii" },
+      { id: 1, title: "Paris" },
+    ];
+    const dealsService = new DealsService(_destinations, null, null);
+    
+    const newDestination = { id: 2, title: "Gaziantep" };
+    dealsService.addDestination(newDestination);
+    
+    const allDestinations = dealsService.getBestDestinations(10);
+    expect(allDestinations).toHaveLength(3);
+    expect(allDestinations).toContainEqual(
+      expect.objectContaining({ title: "Gaziantep" })
+    );
+  });
 });

@@ -42,4 +42,23 @@ describe("[Unit] That Airports Service", () => {
     const cityB = airports.getByCode("B");
     expect(cityB.city).toBe("B City");
   });
+
+  it("can add airport", () => {
+    const airports = new AirportsService(dummyAirportsJSON);
+    
+    const newAirport = {
+      code: "GZT",
+      name: "Gaziantep Airport",
+      city: "Gaziantep",
+      country: "Turkey",
+    };
+    airports.addAirport(newAirport);
+    
+    const all = airports.getAll();
+    expect(all).toHaveLength(3);
+    
+    const gaziantepAirport = airports.getByCode("GZT");
+    expect(gaziantepAirport.city).toBe("Gaziantep");
+    expect(gaziantepAirport.code).toBe("GZT");
+  });
 });

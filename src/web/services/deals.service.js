@@ -28,6 +28,10 @@ class DealsService {
       .slice(0, n)
       .map(dealsParser(this._airports));
   }
+
+  addDestination(destination) {
+    this._destinations.push(destination);
+  }
 }
 
 module.exports = DealsService;
