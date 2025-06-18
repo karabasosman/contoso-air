@@ -16,5 +16,11 @@
     "title": "Barcelona",
     "desktop-image": "barcelona.jpg",
     "mobile-image": "barcelona_m.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Ankara",
+    "desktop-image": "ankara.jpg",
+    "mobile-image": "ankara_m.jpg"
   }
 ]
