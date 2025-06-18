@@ -16,5 +16,11 @@
     "title": "Barcelona",
     "desktop-image": "barcelona.jpg",
     "mobile-image": "barcelona_m.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Erzincan",
+    "desktop-image": "erzincan.jpg",
+    "mobile-image": "erzincan_m.jpg"
   }
 ]
