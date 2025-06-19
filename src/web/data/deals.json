@@ -102,5 +102,18 @@
     "hours": null,
     "stops": null,
     "since": "2025-02-13T00:00:01Z"
+  },
+  {
+    "id": "8",
+    "fromName": "Seattle",
+    "fromCode": "SEA", 
+    "toName": "Antalya",
+    "toCode": "AYT",
+    "price": "850",
+    "departTime": "2025-03-04T08:45:00Z",
+    "arrivalTime": "2025-03-05T18:30:00Z",
+    "hours": "12h 45m",
+    "stops": "1",
+    "since": "2025-03-04T08:45:00Z"
   }
 ]
