@@ -17,7 +17,7 @@ describe("[Int] That Airports Service", () => {
     }
   );
 
-  it.each(["SEA", "BCN", "HNL", "CDG", "NAR", "LHR", "SIN"])(
+  it.each(["SEA", "BCN", "HNL", "CDG", "NAR", "LHR", "SIN", "AYT"])(
     "exists airport with code %s (used by deals)",
     (code) => {
       const airports = AirportsService();
