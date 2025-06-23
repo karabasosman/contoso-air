@@ -102,5 +102,44 @@
     "hours": null,
     "stops": null,
     "since": "2025-02-13T00:00:01Z"
+  },
+  {
+    "id": "8",
+    "fromName": "Seattle",
+    "fromCode": "SEA",
+    "toName": "İzmir",
+    "toCode": "ADB",
+    "price": "680",
+    "departTime": "2025-03-04T10:30:00Z",
+    "arrivalTime": "2025-03-05T16:45:00Z",
+    "hours": "14h 15m",
+    "stops": "1",
+    "since": "2025-02-13T00:00:01Z"
+  },
+  {
+    "id": "9",
+    "fromName": "İzmir",
+    "fromCode": "ADB",
+    "toName": "Paris",
+    "toCode": "CDG",
+    "price": "350",
+    "departTime": "2025-03-04T14:20:00Z",
+    "arrivalTime": "2025-03-04T18:15:00Z",
+    "hours": "4h 55m",
+    "stops": "0",
+    "since": "2025-02-13T00:00:01Z"
+  },
+  {
+    "id": "10",
+    "fromName": "İzmir",
+    "fromCode": "ADB",
+    "toName": "London",
+    "toCode": "LHR",
+    "price": "420",
+    "departTime": "2025-03-04T16:15:00Z",
+    "arrivalTime": "2025-03-04T19:30:00Z",
+    "hours": "4h 15m",
+    "stops": "0",
+    "since": "2025-02-13T00:00:01Z"
   }
 ]

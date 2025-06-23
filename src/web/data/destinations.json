@@ -6,6 +6,12 @@
     "mobile-image": "hawaii_m.jpg"
   },
   {
+    "id": 1,
+    "title": "İzmir",
+    "desktop-image": "izmir.jpg",
+    "mobile-image": "izmir_m.jpg"
+  },
+  {
     "id": 2,
     "title": "Paris",
     "desktop-image": "paris.jpg",
