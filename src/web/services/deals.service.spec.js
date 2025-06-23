@@ -7,7 +7,7 @@ jest.mock("./airports.service");
 describe("[Unit] That Deals Service", () => {
   it("returns correct destinations", () => {
     const _destinations = [
-      { id: 0, title: "Hawaii" },
+      { id: 0, title: "Ankara" },
       { id: 1, title: "Paris" },
       { id: 2, title: "Barcelona" },
     ];
@@ -16,7 +16,7 @@ describe("[Unit] That Deals Service", () => {
 
     expect(destinations).toHaveLength(2);
     expect(destinations).toContainEqual(
-      expect.objectContaining({ title: "Hawaii" })
+      expect.objectContaining({ title: "Ankara" })
     );
     expect(destinations).toContainEqual(
       expect.objectContaining({ title: "Paris" })
