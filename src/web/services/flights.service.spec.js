@@ -61,7 +61,7 @@ describe("[Unit] That Flights Service", () => {
             {
               flight: 987,
               fromCode: "SEA",
-              toCode: "HNL",
+              toCode: "KCM",
               departTime: "2025-10-30T08:00:00Z",
               arrivalTime: "2025-10-30T15:10:00Z",
             },
