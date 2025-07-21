@@ -1,0 +1,90 @@
+# syntax=docker/dockerfile:1
+
+# Build stage for dependencies and setup
+FROM node:20-alpine AS builder
+
+# Add metadata labels
+LABEL maintainer="contoso-air" \
+      description="Contoso Air - Sample airline booking application" \
+      version="1.0" \
+      org.opencontainers.image.title="Contoso Air Web Application" \
+      org.opencontainers.image.description="A sample airline booking application for demos and learning" \
+      org.opencontainers.image.vendor="Contoso Air" \
+      org.opencontainers.image.licenses="MIT"
+
+# Install security updates and dumb-init for proper signal handling
+RUN apk update && apk upgrade && \
+    apk add --no-cache dumb-init && \
+    rm -rf /var/cache/apk/*
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Copy package files for dependency installation
+COPY package*.json ./
+
+# Install ALL dependencies (including dev) for potential build processes
+# Use npm ci with performance optimizations
+RUN npm ci --no-audit --no-fund --prefer-offline --no-optional
+
+# Copy application source code
+COPY . .
+
+# Remove devDependencies to reduce final image size
+RUN npm prune --omit=dev && \
+    npm cache clean --force
+
+# Production stage
+FROM node:20-alpine AS production
+
+# Add metadata labels
+LABEL maintainer="contoso-air" \
+      description="Contoso Air - Sample airline booking application" \
+      version="1.0" \
+      org.opencontainers.image.title="Contoso Air Web Application" \
+      org.opencontainers.image.description="A sample airline booking application for demos and learning" \
+      org.opencontainers.image.vendor="Contoso Air" \
+      org.opencontainers.image.licenses="MIT"
+
+# Install security updates and dumb-init for proper signal handling
+RUN apk update && apk upgrade && \
+    apk add --no-cache dumb-init && \
+    rm -rf /var/cache/apk/*
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Create a non-root user with specific UID/GID for security
+RUN addgroup -g 1001 -S appgroup && \
+    adduser -u 1001 -S appuser -G appgroup
+
+# Copy application and dependencies from builder stage
+COPY --from=builder --chown=appuser:appgroup /usr/src/app/node_modules ./node_modules
+COPY --from=builder --chown=appuser:appgroup /usr/src/app/package*.json ./
+COPY --from=builder --chown=appuser:appgroup /usr/src/app .
+
+# Set production environment
+ENV NODE_ENV=production \
+    PORT=3000
+
+# Expose the application port
+EXPOSE 3000
+
+# Add health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD node -e "const http = require('http'); \
+        const options = { host: '0.0.0.0', port: 3000, path: '/', timeout: 2000 }; \
+        const req = http.request(options, (res) => { \
+            if (res.statusCode === 200) process.exit(0); \
+            else process.exit(1); \
+        }); \
+        req.on('error', () => process.exit(1)); \
+        req.on('timeout', () => process.exit(1)); \
+        req.end();"
+
+# Switch to non-root user
+USER appuser
+
+# Use dumb-init for proper signal handling and start the application
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["node", "./bin/www"]
