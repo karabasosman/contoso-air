@@ -1,0 +1,73 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: contoso-air-web-monitor
+  namespace: contoso-air
+  labels:
+    app: contoso-air-web
+    component: monitoring
+    environment: production
+spec:
+  selector:
+    matchLabels:
+      app: contoso-air-web
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    honorLabels: true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-contoso-air
+  namespace: contoso-air
+  labels:
+    grafana_dashboard: "1"
+    app: contoso-air-web
+    component: monitoring
+    environment: production
+data:
+  contoso-air-dashboard.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "Contoso Air Application Metrics",
+        "tags": ["contoso-air"],
+        "timezone": "UTC",
+        "panels": [
+          {
+            "title": "Response Time",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=\"contoso-air-web\"}[5m]))",
+                "legendFormat": "95th percentile"
+              }
+            ]
+          },
+          {
+            "title": "Request Rate",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(http_requests_total{job=\"contoso-air-web\"}[5m])",
+                "legendFormat": "Requests/sec"
+              }
+            ]
+          },
+          {
+            "title": "Error Rate",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(http_requests_total{job=\"contoso-air-web\",status=~\"5..\"}[5m])",
+                "legendFormat": "5xx errors/sec"
+              }
+            ]
+          }
+        ]
+      }
+    }

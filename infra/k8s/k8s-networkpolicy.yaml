@@ -1,0 +1,63 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: contoso-air-web-netpol
+  namespace: contoso-air
+  labels:
+    app: contoso-air-web
+    component: security
+    environment: production
+spec:
+  podSelector:
+    matchLabels:
+      app: contoso-air-web
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    - namespaceSelector:
+        matchLabels:
+          name: contoso-air
+      podSelector:
+        matchLabels:
+          component: ingress
+    ports:
+    - protocol: TCP
+      port: 3000
+  egress:
+  # Allow DNS resolution
+  - to: []
+    ports:
+    - protocol: UDP
+      port: 53
+  # Allow HTTPS for external APIs and monitoring
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+  # Allow database connections (CosmosDB)
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 10255
+    - protocol: TCP
+      port: 10250
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-default
+  namespace: contoso-air
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress

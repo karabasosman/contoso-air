@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: contoso-air-web
+  namespace: contoso-air
+  labels:
+    app: contoso-air-web
+    component: web
+    environment: production
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: "/health"
+spec:
+  type: ClusterIP
+  selector:
+    app: contoso-air-web
+    component: web
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http
+  sessionAffinity: None
+

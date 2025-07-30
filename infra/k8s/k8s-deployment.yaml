@@ -1,49 +1,152 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: contoso-air-web
+  namespace: contoso-air
   labels:
     app: contoso-air-web
+    component: web
+    environment: production
+    version: v1
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    kubernetes.io/change-cause: "Production deployment with enhanced security and observability"
 spec:
-  replicas: 2
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: contoso-air-web
+      component: web
   template:
     metadata:
       labels:
         app: contoso-air-web
+        component: web
+        environment: production
+        version: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+        prometheus.io/path: "/metrics"
     spec:
+      serviceAccountName: contoso-air-web-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: contoso-air-web
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: contoso-air-web
+                topologyKey: kubernetes.io/hostname
       containers:
         - name: contoso-air-web
           image: osktestcrqpjmtpx4xyv3e.azurecr.io/pluxee-demo:v1
+          imagePullPolicy: Always
           ports:
-            - containerPort: 3000
+            - name: http
+              containerPort: 3000
+              protocol: TCP
           env:
             - name: NODE_ENV
               value: "production"
+            - name: PORT
+              value: "3000"
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: contoso-air-config
+                  key: log-level
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: contoso-air-secrets
+                  key: session-secret
+          envFrom:
+            - configMapRef:
+                name: contoso-air-config
           resources:
             requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "500m"
+              cpu: "200m"
               memory: "256Mi"
+              ephemeral-storage: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+              ephemeral-storage: "1Gi"
           securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
             runAsUser: 1000
             runAsGroup: 1000
-            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 30
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: var-cache
+              mountPath: /var/cache
+            - name: app-logs
+              mountPath: /var/log/app
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: var-cache
+          emptyDir: {}
+        - name: app-logs
+          emptyDir: {}
       restartPolicy: Always
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: contoso-air-web
-spec:
-  type: ClusterIP
-  selector:
-    app: contoso-air-web
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
+      terminationGracePeriodSeconds: 30
+
