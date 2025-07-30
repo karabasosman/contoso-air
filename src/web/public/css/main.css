@@ -7222,6 +7222,25 @@ a.text-dark:hover, a.text-dark:focus {
     font-size: .7rem;
     font-weight: 600;
     margin-top: .8rem; }
+  .footer-microsoft-button {
+    display: inline-block;
+    background-color: #df1d59;
+    color: #fff;
+    padding: 0.4rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    margin-top: 0.5rem;
+    transition: background-color 0.15s ease-in-out;
+    border: none; }
+    .footer-microsoft-button:hover {
+      background-color: #bd194b;
+      color: #fff;
+      text-decoration: none; }
+    .footer-microsoft-button:focus {
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(223, 29, 89, 0.25); }
 
 .route .footer,
 .route-barcelona .footer {
