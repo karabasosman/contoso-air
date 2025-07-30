@@ -47,7 +47,8 @@
 			"Link_5": "Gift certificates",
 			"Link_6": "Follow us"
 		},
-		"Copyright": "This site is built by Microsoft for demonstration purposes only."
+		"Copyright": "This site is built by Microsoft for demonstration purposes only.",
+		"Microsoft": "Microsoft"
 	},
 	"Login": {
 		"Title": "Login",
@@ -84,5 +85,6 @@
 	"Footer.Products.Link_4": "Footer.Products.Link_4",
 	"Footer.Products.Link_5": "Footer.Products.Link_5",
 	"Footer.Products.Link_6": "Footer.Products.Link_6",
-	"Footer.Copyright": "Footer.Copyright"
+	"Footer.Copyright": "Footer.Copyright",
+	"Footer.Microsoft": "Footer.Microsoft"
 }
