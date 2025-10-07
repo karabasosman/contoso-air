@@ -26,6 +26,19 @@
     "since": "2025-03-04T08:45:00Z"
   },
   {
+    "id": "8",
+    "fromName": "Seattle",
+    "fromCode": "SEA",
+    "toName": "Munich",
+    "toCode": "ZMU",
+    "price": "420",
+    "departTime": null,
+    "arrivalTime": null,
+    "hours": null,
+    "stops": null,
+    "since": "2025-02-13T00:00:01Z"
+  },
+  {
     "id": "2",
     "fromName": "Seattle",
     "fromCode": "SEA",
