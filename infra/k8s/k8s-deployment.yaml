@@ -4,8 +4,18 @@ metadata:
   name: contoso-air-web
   labels:
     app: contoso-air-web
+    app.kubernetes.io/name: contoso-air-web
+    app.kubernetes.io/component: web
+    app.kubernetes.io/part-of: contoso-air
+  annotations:
+    description: "Contoso Air web application deployment"
 spec:
   replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: contoso-air-web
@@ -13,15 +23,46 @@ spec:
     metadata:
       labels:
         app: contoso-air-web
+        app.kubernetes.io/name: contoso-air-web
+        app.kubernetes.io/component: web
+        app.kubernetes.io/part-of: contoso-air
     spec:
+      securityContext:
+        runAsNonRoot: true
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: contoso-air-web
           image: osktestcrqpjmtpx4xyv3e.azurecr.io/pluxee-demo:v1
+          imagePullPolicy: Always
           ports:
-            - containerPort: 3000
+            - name: http
+              containerPort: 3000
+              protocol: TCP
           env:
             - name: NODE_ENV
               value: "production"
+          envFrom:
+            - configMapRef:
+                name: contoso-air-config
+                optional: true
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
           resources:
             requests:
               cpu: "100m"
@@ -33,17 +74,9 @@ spec:
             runAsUser: 1000
             runAsGroup: 1000
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
       restartPolicy: Always
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: contoso-air-web
-spec:
-  type: ClusterIP
-  selector:
-    app: contoso-air-web
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
