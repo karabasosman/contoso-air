@@ -6,6 +6,12 @@
     "mobile-image": "hawaii_m.jpg"
   },
   {
+    "id": 1,
+    "title": "Munich",
+    "desktop-image": "munich.jpg",
+    "mobile-image": "munich_m.jpg"
+  },
+  {
     "id": 2,
     "title": "Paris",
     "desktop-image": "paris.jpg",
