@@ -1,0 +1,31 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: contoso-air
+
+# List of resource files to include
+resources:
+  - k8s-configmap.yaml
+  - k8s-deployment.yaml
+  - k8s-service.yaml
+  - k8s-hpa.yaml
+  - k8s-pdb.yaml
+
+# Common labels added to all resources
+labels:
+  - pairs:
+      app: contoso-air-web
+
+# Common annotations added to all resources
+commonAnnotations:
+  app.kubernetes.io/version: "1.0.0"
+
+# Namespace for all resources (optional, uncomment to use)
+# namespace: contoso-air
+
+# Image transformers (can be used to update image tags)
+# images:
+#   - name: osktestcrqpjmtpx4xyv3e.azurecr.io/pluxee-demo
+#     newTag: v2

@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: contoso-air-web-config
+  labels:
+    app: contoso-air-web
+    app.kubernetes.io/name: contoso-air-web
+    app.kubernetes.io/component: web
+    app.kubernetes.io/part-of: contoso-air
+    app.kubernetes.io/managed-by: kubectl
+  annotations:
+    description: "Configuration for Contoso Air web application"
+data:
+  # Azure Cosmos DB configuration
+  # Uncomment and set these values when using Azure Cosmos DB
+  # AZURE_COSMOS_LISTCONNECTIONSTRINGURL:
+  #   "https://management.azure.com/subscriptions/YOUR_SUBSCRIPTION_ID/..."
+  # AZURE_COSMOS_SCOPE: "https://management.azure.com/.default"
+  # AZURE_COSMOS_CLIENTID: "YOUR_CLIENT_ID"
+
+  # Application configuration
+  LOG_LEVEL: "info"
