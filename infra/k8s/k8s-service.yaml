@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: contoso-air-web
+  labels:
+    app: contoso-air-web
+    app.kubernetes.io/name: contoso-air-web
+    app.kubernetes.io/component: web
+    app.kubernetes.io/part-of: contoso-air
+    app.kubernetes.io/managed-by: kubectl
+  annotations:
+    description: "Service for Contoso Air web application"
+spec:
+  type: ClusterIP
+  selector:
+    app: contoso-air-web
+    app.kubernetes.io/name: contoso-air-web
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http
+  sessionAffinity: None

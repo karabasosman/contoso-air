@@ -1,0 +1,19 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: contoso-air-web-pdb
+  labels:
+    app: contoso-air-web
+    app.kubernetes.io/name: contoso-air-web
+    app.kubernetes.io/component: web
+    app.kubernetes.io/part-of: contoso-air
+    app.kubernetes.io/managed-by: kubectl
+  annotations:
+    description: "Pod Disruption Budget for Contoso Air web application"
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: contoso-air-web
+      app.kubernetes.io/name: contoso-air-web

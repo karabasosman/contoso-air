@@ -1,27 +1,54 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: contoso-air-web
   labels:
     app: contoso-air-web
+    app.kubernetes.io/name: contoso-air-web
+    app.kubernetes.io/component: web
+    app.kubernetes.io/part-of: contoso-air
+    app.kubernetes.io/managed-by: kubectl
+  annotations:
+    description: "Contoso Air web application deployment"
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: contoso-air-web
+      app.kubernetes.io/name: contoso-air-web
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
         app: contoso-air-web
+        app.kubernetes.io/name: contoso-air-web
+        app.kubernetes.io/component: web
+        app.kubernetes.io/part-of: contoso-air
     spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: contoso-air-web
           image: osktestcrqpjmtpx4xyv3e.azurecr.io/pluxee-demo:v1
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 3000
+            - name: http
+              containerPort: 3000
+              protocol: TCP
           env:
             - name: NODE_ENV
               value: "production"
+          envFrom:
+            - configMapRef:
+                name: contoso-air-web-config
+                optional: true
           resources:
             requests:
               cpu: "100m"
@@ -33,17 +60,29 @@ spec:
             runAsUser: 1000
             runAsGroup: 1000
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
       restartPolicy: Always
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: contoso-air-web
-spec:
-  type: ClusterIP
-  selector:
-    app: contoso-air-web
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
+      terminationGracePeriodSeconds: 30
