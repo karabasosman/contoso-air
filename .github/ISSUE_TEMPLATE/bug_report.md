@@ -1,3 +1,11 @@
+---
+name: Bug Report
+about: Report a bug or issue with the application
+title: '[BUG] '
+labels: ['bug']
+assignees: ''
+---
+
 <!--
 IF SUFFICIENT INFORMATION IS NOT PROVIDED VIA THE FOLLOWING TEMPLATE THE ISSUE MIGHT BE CLOSED WITHOUT FURTHER CONSIDERATION OR INVESTIGATION
 -->
