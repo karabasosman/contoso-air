@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
   const vm = {
     nav: navbarService.getData(req),
     deals: {
-      destinations: dealsService.getBestDestinations(3),
+      destinations: dealsService.getBestDestinations(4),
       flights: dealsService.getFlightDeals(4)
     }
   };
